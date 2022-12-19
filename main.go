@@ -32,7 +32,7 @@ func serviceRegistryWithConsul() {
 	address := getPodIP()
 	serviceID := fmt.Sprintf("frontend-server-%s:%v", address, port)
 
-	tags := []string{"urlprefix-/frontend host=test.netslum.dev", "urlprefix-/api host=test-api.netslum.dev"}
+	tags := []string{"urlprefix-test.netslum.dev/frontend", "urlprefix-test-api.netslum.dev/api"}
 
 	registration := &consulapi.AgentServiceRegistration{
 		ID:      serviceID,
