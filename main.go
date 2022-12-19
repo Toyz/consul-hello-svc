@@ -14,6 +14,8 @@ func main() {
 	serviceRegistryWithConsul()
 	log.Println("Starting frontend World Server...")
 	http.HandleFunc("/frontend", helloworld)
+	http.HandleFunc("/api", apiWorld)
+
 	http.HandleFunc("/check", check)
 	http.ListenAndServe(getPort(), nil)
 
@@ -30,7 +32,7 @@ func serviceRegistryWithConsul() {
 	address := getPodIP()
 	serviceID := fmt.Sprintf("frontend-server-%s:%v", address, port)
 
-	tags := []string{"urlprefix-/frontend"}
+	tags := []string{"urlprefix-/frontend", "urlprefix-/api"}
 
 	registration := &consulapi.AgentServiceRegistration{
 		ID:      serviceID,
@@ -58,6 +60,12 @@ func helloworld(w http.ResponseWriter, r *http.Request) {
 	log.Println("helloworld service is called.")
 	w.WriteHeader(http.StatusOK)
 	fmt.Fprintf(w, "Hello world.")
+}
+
+func apiWorld(w http.ResponseWriter, r *http.Request) {
+	log.Println("apiWorld service is called.")
+	w.WriteHeader(http.StatusOK)
+	fmt.Fprintf(w, "apiWorld.")
 }
 
 func check(w http.ResponseWriter, r *http.Request) {
