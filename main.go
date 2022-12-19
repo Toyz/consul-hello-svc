@@ -27,7 +27,7 @@ func serviceRegistryWithConsul() {
 	}
 
 	port, _ := strconv.Atoi(getPort()[1:len(getPort())])
-	address := getHostname() + ".pod.cluster.local"
+	address := getPodIP()
 	serviceID := fmt.Sprintf("frontend-server-%s:%v", address, port)
 
 	tags := []string{"urlprefix-/frontend"}
@@ -76,5 +76,10 @@ func getPort() (port string) {
 
 func getHostname() (hostname string) {
 	hostname, _ = os.Hostname()
+	return
+}
+
+func getPodIP() (podIP string) {
+	podIP = os.Getenv("POD_IP")
 	return
 }
